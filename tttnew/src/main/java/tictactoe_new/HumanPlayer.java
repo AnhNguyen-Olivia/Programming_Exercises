@@ -6,11 +6,8 @@ import tictactoe_new.Constants.PlayerType;
 
 public class HumanPlayer extends Player {
 
-    private String name;
-
     public HumanPlayer(char marker) {
         super(marker);
-        this.name = "Human";
     }
 
     @Override
@@ -28,8 +25,14 @@ public class HumanPlayer extends Player {
         Scanner scanner = new Scanner(System.in);
         int choosenCell;
         do{
-            System.out.println("Ener cell (1-9): ");
-            cell
-        }
+            System.out.println("Enter cell (1-9): ");
+            choosenCell = scanner.nextInt();
+            int[] position = board.getCellPosition(choosenCell);
+            if(!board.isCellEmpty(position[0], position[1])){
+                System.out.println("The position have been taken. Try again.");
+            }else{
+                return position;
+            }
+        }while(true);
     }
 }

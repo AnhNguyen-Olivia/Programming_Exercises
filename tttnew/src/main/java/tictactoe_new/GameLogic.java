@@ -40,8 +40,5 @@ public class GameLogic {
 
     public boolean isGameOver(){
         return board.checkWinner() != '0' || board.isBoardFull();
-    }
-
-
-    
+    }    
 }

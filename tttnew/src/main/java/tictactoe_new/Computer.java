@@ -6,13 +6,18 @@ public class Computer extends Player {
 
     public Computer(char marker) {
         super(marker);
-        //TODO Auto-generated constructor stub
     }
 
     @Override
     public int[] makeMove(Board board) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'makeMove'");
+        int totalCells = Constants.ROW * Constants.COL;
+        for(int cell = 1; cell <= totalCells; cell++){
+            int[] position = board.getCellPosition(cell);
+            if(board.isCellEmpty(position[0], position[1])){
+                return position;
+            }
+        }
+        return null; //if board is full
     }
 
     @Override
