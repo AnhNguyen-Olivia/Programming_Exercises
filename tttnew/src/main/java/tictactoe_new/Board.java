@@ -87,7 +87,7 @@ public class Board {
         }
         return '0';
     }
-
+    // Check if a line have the same marker
     private boolean checkLine(int startRow, int startCol, int rowStep, int colStep){
         char marker = board[startRow][startCol];
         if(marker == '0'){
@@ -110,7 +110,4 @@ public class Board {
         }
         return true;
     }
-
 }
-
-

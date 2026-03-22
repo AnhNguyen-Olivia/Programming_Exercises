@@ -1,8 +1,6 @@
 package tictactoe_new;
-
 import java.util.Scanner;
-
-import tictactoe_new.Constants.PlayerType;
+import tictactoe_new.Constants.*;
 
 public class HumanPlayer extends Player {
 
