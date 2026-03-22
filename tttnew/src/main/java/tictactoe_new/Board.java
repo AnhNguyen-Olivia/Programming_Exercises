@@ -25,8 +25,8 @@ public class Board {
 
     //Check if board is full
     public boolean isBoardFull(){
-        for(int i = 0; i < Constants.COL; i++){
-            for(int j = 0; j < Constants.ROW; j++){
+        for(int i = 0; i < Constants.ROW; i++){
+            for(int j = 0; j < Constants.COL; j++){
                 if(board[i][j] == '0'){
                     return false;
                 }

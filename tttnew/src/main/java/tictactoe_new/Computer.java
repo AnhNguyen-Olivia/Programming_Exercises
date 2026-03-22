@@ -1,6 +1,5 @@
 package tictactoe_new;
-
-import tictactoe_new.Constants.PlayerType;
+import tictactoe_new.Constants.*;
 
 public class Computer extends Player {
     
@@ -10,8 +9,7 @@ public class Computer extends Player {
 
     @Override
     public int[] makeMove(Board board) {
-        int totalCells = Constants.ROW * Constants.COL;
-        for(int cell = 1; cell <= totalCells; cell++){
+        for(int cell = 1; cell <= Constants.TOTAL_CELL; cell++){
             int[] position = board.getCellPosition(cell);
             if(board.isCellEmpty(position[0], position[1])){
                 return position;

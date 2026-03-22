@@ -26,7 +26,7 @@ public class HumanPlayer extends Player {
         Scanner scanner = new Scanner(System.in);
         int choosenCell;
         do{
-            System.out.println("Enter cell (1-9): ");
+            System.out.println("Enter cell (1-" + Constants.TOTAL_CELL + "): ");
             choosenCell = scanner.nextInt();
             int[] position = board.getCellPosition(choosenCell);
             if(!board.isCellEmpty(position[0], position[1])){
