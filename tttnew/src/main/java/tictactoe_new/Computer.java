@@ -3,9 +3,9 @@ package tictactoe_new;
 import tictactoe_new.Constants.PlayerType;
 
 public class Computer extends Player {
-
-    public Computer(char marker) {
-        super(marker);
+    
+    public Computer(char marker, String name) {
+        super(marker, name);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class Computer extends Player {
 
     @Override
     public String getName() {
-        return "COMPUTER";
+        return name;
     }
 
     @Override

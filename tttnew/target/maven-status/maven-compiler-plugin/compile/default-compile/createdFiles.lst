@@ -1,1 +1,8 @@
-tictactoe_new\App.class
+tictactoe_new\Constants$PlayerType.class
+tictactoe_new\GameLogic.class
+tictactoe_new\Player.class
+tictactoe_new\Constants.class
+tictactoe_new\Board.class
+tictactoe_new\MainGame.class
+tictactoe_new\Computer.class
+tictactoe_new\HumanPlayer.class

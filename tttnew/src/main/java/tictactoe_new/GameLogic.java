@@ -8,15 +8,17 @@ public class GameLogic {
     private Player currentPlayer;
 
     public GameLogic(Player p1, Player p2, boolean isPlayer1goFirst){
+        this.board = new Board();
         this.player_1 = p1;
         this.player_2 = p2;
         this.currentPlayer = isPlayer1goFirst ? p1 : p2;
-        board.print();
+        printStartingPlayer();
     }
 
     public void play(){
+        board.print();
         while(!isGameOver()){
-            System.out.print("\n" + currentPlayer.getMarker() + " 's turn:");
+            System.out.print("\n" + currentPlayer.getName() + "'s turn:\n");
             int[] move = currentPlayer.makeMove(board);
             board.placeMarker(move[0], move[1], currentPlayer.getMarker());
             board.print();
@@ -40,5 +42,9 @@ public class GameLogic {
 
     public boolean isGameOver(){
         return board.checkWinner() != '0' || board.isBoardFull();
-    }    
+    }
+    
+    public void printStartingPlayer(){
+        System.out.println(currentPlayer.getName() + " starts");
+    }
 }

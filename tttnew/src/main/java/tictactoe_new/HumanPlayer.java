@@ -6,13 +6,13 @@ import tictactoe_new.Constants.PlayerType;
 
 public class HumanPlayer extends Player {
 
-    public HumanPlayer(char marker) {
-        super(marker);
+    public HumanPlayer(char marker, String name) {
+        super(marker, name);
     }
 
     @Override
     public String getName(){
-        return "HUMAN";
+        return name;
     }
 
     @Override
@@ -22,6 +22,7 @@ public class HumanPlayer extends Player {
 
     @Override
     public int[] makeMove(Board board) {
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         int choosenCell;
         do{
