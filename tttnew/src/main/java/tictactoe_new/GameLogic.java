@@ -15,6 +15,14 @@ public class GameLogic {
         printStartingPlayer();
     }
 
+    public GameLogic(Board board, Player p1, Player p2, boolean isPlayer1goFirst){
+        this.board = board;
+        this.player_1 = p1;
+        this.player_2 = p2;
+        this.currentPlayer = isPlayer1goFirst ? p1 : p2;
+        printStartingPlayer();
+    }
+
     public void play(){
         board.print();
         while(!isGameOver()){

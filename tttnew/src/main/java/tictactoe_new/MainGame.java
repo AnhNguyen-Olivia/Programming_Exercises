@@ -10,17 +10,25 @@ public class MainGame
         GameLogic logic = null;
 
         if(args.length == 0){
-            System.out.println("Enter 1 for human first or 2 for computer first");
+            System.out.println("Usage: <1|2> [1d|2d|3d]");
+            System.out.println("Example: 1 3d  (human starts on 3D board)");
             return;
+        }
+
+        Board selectedBoard = new Board2D();
+        if (args.length >= 2 && args[1].equalsIgnoreCase("1d")) {
+            selectedBoard = new Board1D();
+        } else if (args.length >= 2 && args[1].equalsIgnoreCase("3d")) {
+            selectedBoard = new Board3D();
         }
 
         try{
             if(args[0].equals("1")){
                 isPlayer1goFirst = true;
-                logic = new GameLogic(human, computer, isPlayer1goFirst);
+                logic = new GameLogic(selectedBoard, human, computer, isPlayer1goFirst);
             } else if(args[0].equals("2")){
                 isPlayer1goFirst = false;
-                logic = new GameLogic(human, computer, isPlayer1goFirst);
+                logic = new GameLogic(selectedBoard, human, computer, isPlayer1goFirst);
             }else{
                 System.out.println("Invalid input. Please enter 1 or 2.");
             }
