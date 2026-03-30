@@ -1,0 +1,3 @@
+package tictactoe_new;
+public record Position(int row, int col) {
+}

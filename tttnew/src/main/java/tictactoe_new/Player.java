@@ -1,5 +1,4 @@
 package tictactoe_new;
-import tictactoe_new.Constants.*;
 
 public abstract class Player {
     protected char marker;
@@ -18,7 +17,5 @@ public abstract class Player {
         return name;
     };
 
-    public abstract int[] makeMove(Board board);
-    
-    public abstract PlayerType getType();
+    public abstract Position makeMove(Board board);
 }

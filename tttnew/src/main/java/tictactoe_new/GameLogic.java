@@ -8,7 +8,7 @@ public class GameLogic {
     private Player currentPlayer;
 
     public GameLogic(Player p1, Player p2, boolean isPlayer1goFirst){
-        this.board = new Board();
+        this.board = new Board2D();
         this.player_1 = p1;
         this.player_2 = p2;
         this.currentPlayer = isPlayer1goFirst ? p1 : p2;
@@ -19,8 +19,8 @@ public class GameLogic {
         board.print();
         while(!isGameOver()){
             System.out.print("\n" + currentPlayer.getName() + "'s turn:\n");
-            int[] move = currentPlayer.makeMove(board);
-            board.placeMarker(move[0], move[1], currentPlayer.getMarker());
+            Position move = currentPlayer.makeMove(board);
+            board.placeMarker(move, currentPlayer.getMarker());
             board.print();
 
             //switch player

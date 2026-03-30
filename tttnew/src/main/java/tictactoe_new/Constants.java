@@ -8,7 +8,4 @@ public class Constants {
     public static final int TOTAL_CELL = ROW * COL; 
     public static final char HUMAN_MARKER = '1';
     public static final char COMPUTER_MARKER = '2';
-
-    //For player class
-    enum PlayerType{HUMAN, COMPUTER}
 }

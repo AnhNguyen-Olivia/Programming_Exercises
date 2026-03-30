@@ -1,6 +1,4 @@
 package tictactoe_new;
-import tictactoe_new.Constants.*;
-
 public class Computer extends Player {
     
     public Computer(char marker, String name) {
@@ -8,10 +6,10 @@ public class Computer extends Player {
     }
 
     @Override
-    public int[] makeMove(Board board) {
+    public Position makeMove(Board board) {
         for(int cell = 1; cell <= Constants.TOTAL_CELL; cell++){
-            int[] position = board.getCellPosition(cell);
-            if(board.isCellEmpty(position[0], position[1])){
+            Position position = board.getCellPosition(cell);
+            if(board.isCellEmpty(position)){
                 return position;
             }
         }
@@ -22,10 +20,4 @@ public class Computer extends Player {
     public String getName() {
         return name;
     }
-
-    @Override
-    public PlayerType getType() {
-        return PlayerType.COMPUTER;
-    }
-    
 }
