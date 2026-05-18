@@ -24,9 +24,10 @@ public class GameLogic {
     }
 
     public void play(){
+        System.out.println("Hello!");
         board.print();
         while(!isGameOver()){
-            System.out.print("\n" + currentPlayer.getName() + "'s turn:\n");
+            System.out.println(currentPlayer.getName() + "'s turn");
             Position move = currentPlayer.makeMove(board);
             board.placeMarker(move, currentPlayer.getMarker());
             board.print();
@@ -34,17 +35,17 @@ public class GameLogic {
             //switch player
             currentPlayer = (currentPlayer == player_1) ? player_2 : player_1;
         }
-        
+
         //Game over
         char winnerMarker = board.checkWinner();
         if(winnerMarker != '0'){
             if(player_1.getMarker() == winnerMarker){
-                System.out.println(player_1.getName() + " wins!");
+                System.out.println(player_1.getName() + " won!");
             }else{
-                System.out.println(player_2.getName() + " wins!");
+                System.out.println(player_2.getName() + " won!");
             }
         }else{
-            System.out.println("Draw!");
+            System.out.println("It is a draw!");
         }
     }
 

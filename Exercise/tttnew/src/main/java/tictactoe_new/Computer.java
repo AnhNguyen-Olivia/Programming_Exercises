@@ -1,8 +1,12 @@
 package tictactoe_new;
 public class Computer extends Player {
-    
+
     public Computer(char marker, String name) {
-        super(marker, name);
+        this(marker, name, 0);
+    }
+
+    public Computer(char marker, String name, int playerNumber) {
+        super(marker, name, playerNumber);
     }
 
     @Override
@@ -14,10 +18,5 @@ public class Computer extends Player {
             }
         }
         return null; // if board is full
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 }
