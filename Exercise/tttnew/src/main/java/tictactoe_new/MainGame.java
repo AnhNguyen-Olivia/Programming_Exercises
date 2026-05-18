@@ -35,7 +35,6 @@ public class MainGame
                 System.out.println("Please, input a valid option [1-2]");
             }
             if (logic != null) {
-                System.out.println("Hello!");
                 logic.play();
             }
         }catch(Exception e){

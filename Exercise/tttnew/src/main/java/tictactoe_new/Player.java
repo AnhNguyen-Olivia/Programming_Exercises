@@ -28,7 +28,7 @@ public abstract class Player {
 
     public int getPlayerNumber(){
         return playerNumber;
-    };
+    }
 
     public abstract Position makeMove(Board board);
 }

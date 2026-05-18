@@ -26,17 +26,19 @@ public class GameLogic {
     public void play(){
         System.out.println("Hello!");
         board.print();
-        while(!isGameOver()){
-            System.out.println(currentPlayer.getName() + "'s turn");
-            Position move = currentPlayer.makeMove(board);
-            board.placeMarker(move, currentPlayer.getMarker());
-            board.print();
+        try {
+            while(!isGameOver()){
+                System.out.println(currentPlayer.getName() + "'s turn");
+                Position move = currentPlayer.makeMove(board);
+                board.placeMarker(move, currentPlayer.getMarker());
+                board.print();
 
-            //switch player
-            currentPlayer = (currentPlayer == player_1) ? player_2 : player_1;
+                currentPlayer = (currentPlayer == player_1) ? player_2 : player_1;
+            }
+        } catch(HumanPlayer.QuitGameException e) {
+            return;
         }
 
-        //Game over
         char winnerMarker = board.checkWinner();
         if(winnerMarker != '0'){
             if(player_1.getMarker() == winnerMarker){
@@ -52,7 +54,7 @@ public class GameLogic {
     public boolean isGameOver(){
         return board.checkWinner() != '0' || board.isBoardFull();
     }
-    
+
     public void printStartingPlayer(){
         System.out.println(currentPlayer.getName() + " starts");
     }

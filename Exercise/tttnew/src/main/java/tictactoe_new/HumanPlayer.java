@@ -5,6 +5,12 @@ import java.util.Scanner;
 public class HumanPlayer extends Player {
     private final Scanner scanner;
 
+    public static class QuitGameException extends RuntimeException {
+        public QuitGameException() {
+            super("Player quit the game");
+        }
+    }
+
     public HumanPlayer(char marker, String name) {
         this(marker, name, 0);
     }
@@ -24,27 +30,23 @@ public class HumanPlayer extends Player {
 
     @Override
     public Position makeMove(Board board) {
+        int maxCell = board.getTotalCells();
         while(true){
-            System.out.println("Player#" + playerNumber + "'s turn");
             try {
                 String input = scanner.nextLine().trim();
 
-                // Handle quit command
                 if("q".equals(input)){
                     System.out.println("End of the game");
-                    System.exit(0);
+                    throw new QuitGameException();
                 }
 
-                // Parse input as integer
                 int chosenCell = Integer.parseInt(input);
 
-                // Validate range [1-9]
-                if(chosenCell < 1 || chosenCell > 9){
-                    System.out.println("Please, input a valid number [1-9]");
+                if(chosenCell < 1 || chosenCell > maxCell){
+                    System.out.println("Please, input a valid number [1-" + maxCell + "]");
                     continue;
                 }
 
-                // Get position and check if occupied
                 Position position = board.getCellPosition(chosenCell);
                 if(!board.isCellEmpty(position)){
                     System.out.println("The cell is occupied!");
@@ -54,8 +56,7 @@ public class HumanPlayer extends Player {
                 return position;
 
             } catch(NumberFormatException e){
-                // Non-integer input (but not "q")
-                System.out.println("Please, input a valid number [1-9]");
+                System.out.println("Please, input a valid number [1-" + board.getTotalCells() + "]");
             }
         }
     }
