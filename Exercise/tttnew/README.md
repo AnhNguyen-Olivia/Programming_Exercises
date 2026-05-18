@@ -17,3 +17,14 @@ or fully-qualified:
 mvn -Dtest=tictactoe_new.InteractiveGameTest test
 
 mvn -Dtest=InteractiveGameTest#testMethodName test
+
+javac -cp src/main/java -sourcepath src/main/java src/main/java/tictactoe_new/Server.java
+java -cp src/main/java tictactoe_new.Server
+
+javac -cp src/main/java -sourcepath src/main/java src/main/java/tictactoe_new/Client.java
+java -cp src/main/java tictactoe_new.Client
+
+java -cp target/tttnew-1.0-SNAPSHOT.jar tictactoe_new.Server
+
+java -cp target/tttnew-1.0-SNAPSHOT.jar tictactoe_new.Client
+

@@ -19,6 +19,16 @@ public class Board1D extends Board {
     }
 
     @Override
+    public String render() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < board.length; i++) {
+            sb.append("| ").append(board[i]).append(" ");
+        }
+        sb.append("|\n");
+        return sb.toString();
+    }
+
+    @Override
     public int getTotalCells() {
         return board.length;
     }

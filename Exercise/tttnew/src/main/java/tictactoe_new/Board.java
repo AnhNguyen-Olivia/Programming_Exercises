@@ -4,6 +4,8 @@ public abstract class Board {
 
     public abstract void print();
 
+    public abstract String render();
+
     public abstract int getTotalCells();
     
     public abstract boolean isBoardFull();
