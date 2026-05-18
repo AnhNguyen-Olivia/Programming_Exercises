@@ -7,3 +7,13 @@ fix index[] to index only as it is unnecessary to have it as an array when we ar
 restudy OOP def and reasond and throughly understand it.
 
 java -cp target/classes tictactoe_new.MainGame 1 1d
+
+mvn test
+
+mvn -Dtest=InteractiveGameTest test
+
+or fully-qualified:
+
+mvn -Dtest=tictactoe_new.InteractiveGameTest test
+
+mvn -Dtest=InteractiveGameTest#testMethodName test
