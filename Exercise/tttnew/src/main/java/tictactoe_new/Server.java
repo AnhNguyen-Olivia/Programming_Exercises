@@ -1,14 +1,45 @@
 package tictactoe_new;
+
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 public class Server {
     private static final int PORT = 12345;
+    private GameHost gameHost;
+    private Queue<ClientConnection> waitingClients;
+    private ClientConnection currentPlayer;
+    private Set<ClientConnection> connectedClients;
 
-    private Board board;
-    private final Computer computer;
-    private boolean gameOver;
-    private String gameStatus;
+    private static class ClientConnection {
+        private final Socket socket;
+        private final BufferedReader input;
+        private final PrintWriter output;
+
+        public ClientConnection(Socket socket) throws IOException {
+            this.socket = socket;
+            this.input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            this.output = new PrintWriter(socket.getOutputStream(), true);
+        }
+
+        public String readLine() throws IOException {
+            return input.readLine();
+        }
+
+        public void sendMessage(String message) {
+            output.println(message);
+        }
+
+        public void close() throws IOException {
+            input.close();
+            output.close();
+            socket.close();
+        }
+
+        public String getRemoteAddress() throws IOException {
+            return socket.getInetAddress().getHostAddress() + ":" + socket.getPort();
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         Server server = new Server();
@@ -16,109 +47,117 @@ public class Server {
     }
 
     public Server() {
-        this.board = new Board2D();
-        this.computer = new Computer(Constants.COMPUTER_MARKER, "COMPUTER", 2);
-        this.gameOver = false;
-        this.gameStatus = "";
+        this.gameHost = new GameHost();
+        this.waitingClients = new LinkedList<>();
+        this.connectedClients = new HashSet<>();
+        this.currentPlayer = null;
     }
 
     private void start() throws IOException {
-        try (DatagramSocket socket = new DatagramSocket(PORT)) {
-            System.out.println("Server listening on port " + PORT);
-            printBoardToConsole();
+        ServerSocket serverSocket = new ServerSocket(PORT);
+        System.out.println("Server listening on port " + PORT);
+        System.out.println("Waiting for client connections...\n");
 
-            byte[] receiveBuffer = new byte[1024];
+        while (true) {
+            Socket clientSocket = serverSocket.accept();
+            handleNewConnection(clientSocket);
+        }
+    }
 
-            while (true) {
-                DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
-                socket.receive(receivePacket);
+    private void handleNewConnection(Socket clientSocket) throws IOException {
+        ClientConnection client = new ClientConnection(clientSocket);
+        connectedClients.add(client);
 
-                String clientMessage = new String(receivePacket.getData(), 0, receivePacket.getLength()).trim();
-                String response;
+        String welcomeMsg;
+        if (currentPlayer == null) {
+            gameHost.reset();
+            currentPlayer = client;
+            welcomeMsg = "Welcome! You are now playing.\n" + gameHost.getBoardState()
+                    + "\nYour turn. Enter cell number (1-9), 'board' to view, 'reset' for new game, or 'quit' to exit.\n";
+            System.out.println("Client " + client.getRemoteAddress() + " is now playing.");
+        } else {
+            waitingClients.offer(client);
+            welcomeMsg = "Welcome! A game is currently in progress.\nPlease wait for your turn...\n";
+            System.out.println("Client " + client.getRemoteAddress() + " is waiting. Queue size: " + waitingClients.size());
+        }
 
-                if (clientMessage.equalsIgnoreCase("reset")) {
-                    resetGame();
-                    response = "Game reset.\n" + board.render() + "Your turn";
-                } else if (clientMessage.equalsIgnoreCase("board")) {
-                    response = board.render();
-                } else {
-                    try {
-                        int cellNumber = Integer.parseInt(clientMessage);
-                        response = makeClientMove(cellNumber);
-                    } catch (NumberFormatException e) {
-                        response = "Invalid input. Enter a cell number (1-9) or 'reset' or 'board'";
+        client.sendMessage(welcomeMsg);
+        handleClient(client);
+    }
+
+    private void handleClient(ClientConnection client) {
+        new Thread(() -> {
+            try {
+                while (true) {
+                    String message = client.readLine();
+                    if (message == null) {
+                        handleClientDisconnect(client);
+                        return;
                     }
+
+                    message = message.trim();
+                    if (message.isEmpty()) {
+                        continue;
+                    }
+
+                    if (message.equalsIgnoreCase("quit")) {
+                        handleClientDisconnect(client);
+                        return;
+                    }
+
+                    if (currentPlayer == client) {
+                        GameHost.MoveResult result = gameHost.processMove(message);
+                        client.sendMessage(result.getResponse());
+
+                        if (result.isFinishedGame() && !waitingClients.isEmpty()) {
+                            client.sendMessage("Game finished. Switching to next waiting player...\n");
+                            nextPlayerTurn();
+                        }
+                    } else if (waitingClients.contains(client)) {
+                        client.sendMessage("Still waiting... Current player is playing.\n");
+                    } else {
+                        client.sendMessage("Please wait. Another player is currently playing.\n");
+                    }
+
+                    System.out.println("Message from " + client.getRemoteAddress() + ": " + message);
                 }
-
-                System.out.println("Received: " + clientMessage);
-                printBoardToConsole();
-
-                byte[] sendBuffer = response.getBytes();
-                DatagramPacket sendPacket = new DatagramPacket(
-                        sendBuffer, sendBuffer.length,
-                        receivePacket.getAddress(), receivePacket.getPort());
-                socket.send(sendPacket);
+            } catch (IOException e) {
+                System.out.println("I/O error with client: " + e.getMessage());
+                try {
+                    handleClientDisconnect(client);
+                } catch (IOException ex) {
+                    System.out.println("Error disconnecting client: " + ex.getMessage());
+                }
             }
+        }).start();
+    }
+
+    private synchronized void nextPlayerTurn() throws IOException {
+        if (!waitingClients.isEmpty()) {
+            currentPlayer = waitingClients.poll();
+            gameHost.reset();
+            String msg = "Your turn now! Game reset.\n" + gameHost.getBoardState() + "\nYour turn\n";
+            currentPlayer.sendMessage(msg);
+            System.out.println("Next player started. Queue size: " + waitingClients.size());
+        } else {
+            currentPlayer = null;
+            System.out.println("No more players waiting. Server ready for new connection.");
         }
     }
 
-    private String makeClientMove(int cellNumber) {
-        if (gameOver) {
-            return "Game is over. Start a new game.";
+    private synchronized void handleClientDisconnect(ClientConnection client) throws IOException {
+        connectedClients.remove(client);
+        System.out.println("Client " + client.getRemoteAddress() + " disconnected.");
+
+        if (currentPlayer == client) {
+            System.out.println("Current player disconnected. Moving to next player...");
+            currentPlayer = null;
+            nextPlayerTurn();
+        } else {
+            waitingClients.remove(client);
+            System.out.println("Waiting client removed. Queue size: " + waitingClients.size());
         }
 
-        if (cellNumber < 1 || cellNumber > board.getTotalCells()) {
-            return "Invalid cell number. Use 1-" + board.getTotalCells();
-        }
-
-        Position position = board.getCellPosition(cellNumber);
-        if (!board.isCellEmpty(position)) {
-            return "The cell is occupied!";
-        }
-
-        board.placeMarker(position, Constants.HUMAN_MARKER);
-
-        char winner = board.checkWinner();
-        if (winner == Constants.HUMAN_MARKER) {
-            gameOver = true;
-            gameStatus = "You won!";
-            return board.render() + "\n" + gameStatus;
-        }
-
-        if (board.isBoardFull()) {
-            gameOver = true;
-            gameStatus = "It is a draw!";
-            return board.render() + "\n" + gameStatus;
-        }
-
-        Position computerMove = computer.makeMove(board);
-        if (computerMove != null) {
-            board.placeMarker(computerMove, Constants.COMPUTER_MARKER);
-        }
-
-        winner = board.checkWinner();
-        if (winner == Constants.COMPUTER_MARKER) {
-            gameOver = true;
-            gameStatus = "Computer won!";
-            return board.render() + "\n" + gameStatus;
-        }
-
-        if (board.isBoardFull()) {
-            gameOver = true;
-            gameStatus = "It is a draw!";
-            return board.render() + "\n" + gameStatus;
-        }
-
-        return board.render() + "\nYour turn";
-    }
-
-    private void resetGame() {
-        this.board = new Board2D();
-        this.gameOver = false;
-        this.gameStatus = "";
-    }
-
-    private void printBoardToConsole() {
-        System.out.print(board.render());
+        client.close();
     }
 }
