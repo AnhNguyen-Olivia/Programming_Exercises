@@ -10,7 +10,6 @@ tictactoe_new\Constants.class
 tictactoe_new\Client.class
 tictactoe_new\Server.class
 tictactoe_new\Computer.class
-tictactoe_new\Server$ClientConnection.class
 tictactoe_new\HumanPlayer$QuitGameException.class
 tictactoe_new\HumanPlayer.class
 tictactoe_new\GameHost$MoveResult.class
