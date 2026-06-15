@@ -25,6 +25,18 @@ public class Board2D extends Board {
     }
 
     @Override
+    public String render() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < Constants.ROW; i++) {
+            for (int j = 0; j < Constants.COL; j++) {
+                sb.append("| ").append(board[i][j]).append(" ");
+            }
+            sb.append("|\n");
+        }
+        return sb.toString();
+    }
+
+    @Override
     public int getTotalCells(){
         return Constants.ROW * Constants.COL;
     }

@@ -24,34 +24,37 @@ public class GameLogic {
     }
 
     public void play(){
+        System.out.println("Hello!");
         board.print();
-        while(!isGameOver()){
-            System.out.print("\n" + currentPlayer.getName() + "'s turn:\n");
-            Position move = currentPlayer.makeMove(board);
-            board.placeMarker(move, currentPlayer.getMarker());
-            board.print();
+        try {
+            while(!isGameOver()){
+                System.out.println(currentPlayer.getName() + "'s turn");
+                Position move = currentPlayer.makeMove(board);
+                board.placeMarker(move, currentPlayer.getMarker());
+                board.print();
 
-            //switch player
-            currentPlayer = (currentPlayer == player_1) ? player_2 : player_1;
+                currentPlayer = (currentPlayer == player_1) ? player_2 : player_1;
+            }
+        } catch(HumanPlayer.QuitGameException e) {
+            return;
         }
-        
-        //Game over
+
         char winnerMarker = board.checkWinner();
         if(winnerMarker != '0'){
             if(player_1.getMarker() == winnerMarker){
-                System.out.println(player_1.getName() + " wins!");
+                System.out.println(player_1.getName() + " won!");
             }else{
-                System.out.println(player_2.getName() + " wins!");
+                System.out.println(player_2.getName() + " won!");
             }
         }else{
-            System.out.println("Draw!");
+            System.out.println("It is a draw!");
         }
     }
 
     public boolean isGameOver(){
         return board.checkWinner() != '0' || board.isBoardFull();
     }
-    
+
     public void printStartingPlayer(){
         System.out.println(currentPlayer.getName() + " starts");
     }
