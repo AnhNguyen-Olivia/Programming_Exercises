@@ -1,2 +1,69 @@
-# Programming_Exercises
-This is the place to hold codes for Programming Exercises class
+# TIC-TAC-TOE GAME
+
+A project to learn how to be better in programming.
+
+## Prerequisites
+
+- Java 21 or higher
+- Maven 3.6+
+
+## How to Build
+
+```bash
+mvn clean install
+```
+
+This will compile the code, run tests, and create a JAR file in the `target/` directory.
+
+## How to Run the Game
+
+### Basic Usage
+
+```bash
+java -jar target/tttnew-1.0-SNAPSHOT.jar <PLAYER> <BOARD_TYPE>
+```
+
+### Parameters
+
+- **PLAYER**: Who plays first
+  - `1` = Human player goes first
+  - `2` = Computer player goes first
+  
+- **BOARD_TYPE**: Choose the board layout
+  - `1d` = 1D board (linear representation)
+  - `2d` = 2D board (traditional grid display)
+
+### Examples
+
+**Human goes first on a 2D board:**
+
+```bash
+java -jar target/tttnew-1.0-SNAPSHOT.jar 1 2d
+```
+
+**Computer goes first on a 2D board:**
+
+```bash
+java -jar target/tttnew-1.0-SNAPSHOT.jar 2 2d
+```
+
+**Human goes first on a 1D board:**
+
+```bash
+java -jar target/tttnew-1.0-SNAPSHOT.jar 1 1d
+```
+
+## How to Play
+
+- Enter your move as a position number (0-8 for 2D board, or as specified in the game)
+- Try to get three in a row (horizontally, vertically, or diagonally)
+- The game will alternate between your moves and the computer's moves
+- The game ends when someone wins or the board is full (tie)
+
+## Running Tests
+
+```bash
+mvn test
+```
+
+This will run all unit tests in the `src/test/` directory.
