@@ -1,7 +1,9 @@
 package tictactoe_new;
 
+/**
+ * A class to hold constant values for the tic-tac-toe game.
+ */
 public class Constants {
-    //For Board class
     public static final int ROW = 3;
     public static final int COL = 3;
     public static final int DEPTH = 3;

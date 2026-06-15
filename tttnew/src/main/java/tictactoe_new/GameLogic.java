@@ -1,5 +1,12 @@
 package tictactoe_new;
+import java.io.*;
+
+/**
+ * Manages the game logic for the tic-tac-toe game.
+ */
 public class GameLogic {
+    private PrintStream out;
+
     private Board board;
 
     private Player player_1;
@@ -7,26 +14,30 @@ public class GameLogic {
 
     private Player currentPlayer;
 
-    public GameLogic(Player p1, Player p2, boolean isPlayer1goFirst){
-        this.board = new Board2D();
-        this.player_1 = p1;
-        this.player_2 = p2;
-        this.currentPlayer = isPlayer1goFirst ? p1 : p2;
-        printStartingPlayer();
-    }
-
-    public GameLogic(Board board, Player p1, Player p2, boolean isPlayer1goFirst){
+    /**
+     * Constructor for GameLogic class.
+     * @param board
+     * @param p1
+     * @param p2
+     * @param isPlayer1goFirst
+     * @param out
+     */
+    public GameLogic(Board board, Player p1, Player p2, boolean isPlayer1goFirst, PrintStream out){
         this.board = board;
         this.player_1 = p1;
         this.player_2 = p2;
         this.currentPlayer = isPlayer1goFirst ? p1 : p2;
+        this.out = out;
         printStartingPlayer();
     }
 
+    /**
+     * Plays the game.
+     */
     public void play(){
         board.print();
         while(!isGameOver()){
-            System.out.print("\n" + currentPlayer.getName() + "'s turn:\n");
+            out.print("\n" + currentPlayer.getName() + "'s turn:\n");
             Position move = currentPlayer.makeMove(board);
             board.placeMarker(move, currentPlayer.getMarker());
             board.print();
@@ -39,20 +50,27 @@ public class GameLogic {
         char winnerMarker = board.checkWinner();
         if(winnerMarker != '0'){
             if(player_1.getMarker() == winnerMarker){
-                System.out.println(player_1.getName() + " wins!");
+                out.println(player_1.getName() + " wins!");
             }else{
-                System.out.println(player_2.getName() + " wins!");
+                out.println(player_2.getName() + " wins!");
             }
         }else{
-            System.out.println("Draw!");
+            out.println("Draw!");
         }
     }
 
+    /**
+     * Checks if the game is over.
+     * @return
+     */
     public boolean isGameOver(){
         return board.checkWinner() != '0' || board.isBoardFull();
     }
     
+    /**
+     * Prints the name of the starting player.
+     */
     public void printStartingPlayer(){
-        System.out.println(currentPlayer.getName() + " starts");
+        out.println(currentPlayer.getName() + " starts");
     }
 }

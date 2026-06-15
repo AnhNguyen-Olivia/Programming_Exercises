@@ -1,10 +1,23 @@
 package tictactoe_new;
+import java.io.*;
 
+/**
+ * The Board2D class represents a 2D tic-tac-toe board. 
+ * It provides methods for printing the board, checking if the board is full, checking if a cell is empty, 
+ * getting the position of a cell based on its number, placing a marker on the board, and checking for a winner. 
+ * The class uses a 2D array to represent the board and implements the necessary logic to determine the game state.
+ */
 public class Board2D extends Board {
     private char board[][];
+    private PrintStream out;
 
-    // Construct board object
-    public Board2D() {
+    /**
+     * Constructor for Board2D class. 
+     * Initializes the board as a 2D array of characters and fills it with '0' to represent empty cells.
+     * @param out
+     */
+    public Board2D(PrintStream out){
+        this.out = out;        
         board = new char[Constants.ROW][Constants.COL];
         for(int i = 0; i < Constants.ROW; i++){
             for(int j = 0; j < Constants.COL; j++){
@@ -13,23 +26,32 @@ public class Board2D extends Board {
         }
     }
     
-    // Print board
+    /**
+     * Prints the current state of the board.
+     */
     @Override
     public void print(){
         for(int i = 0; i < Constants.ROW; i++){
             for(int j = 0; j < Constants.COL; j++){
-                System.out.printf("| %s ", "" + board[i][j]);
+                out.printf("| %s ", "" + board[i][j]);
             }
-            System.out.println("|");
+            out.println("|");
         }
     }
 
+    /**
+     * Returns the total number of cells on the board.
+     * @return the total number of cells
+     */
     @Override
     public int getTotalCells(){
         return Constants.ROW * Constants.COL;
     }
 
-    // Check if board is full
+    /**
+     * Checks if the board is full.
+     * @return true if the board is full, false otherwise
+     */
     @Override
     public boolean isBoardFull(){
         for(int i = 0; i < Constants.ROW; i++){
@@ -42,12 +64,22 @@ public class Board2D extends Board {
         return true;
     }
     
-    // Check if board position is empty
+    /**
+     * Checks if a cell is empty.
+     * @param pos the position of the cell to check
+     * @return true if the cell is empty, false otherwise
+     */
     @Override
     public boolean isCellEmpty(Position pos){
         return board[pos.getRow()][pos.getCol()] == '0';
     }
 
+    /**
+     * Gets the position of a cell based on its box number.
+     * The box number is a 1-based index that corresponds to the cell's position on the board.
+     * @param boxNumber the number of the cell (1-based index)
+     * @return the Position object representing the cell's position on the board
+     */
     @Override
     public Position getCellPosition(int boxNumber){
         int row = (boxNumber - 1) / Constants.COL;
@@ -55,11 +87,20 @@ public class Board2D extends Board {
         return new Position(row, col);
     }
 
+    /**
+     * Places a marker on the board at the specified position.
+     * @param pos the position where the marker should be placed
+     * @param marker the marker to place on the board
+     */
     @Override
     public void placeMarker(Position pos, char marker){
         board[pos.getRow()][pos.getCol()] = marker;
     }
     
+    /**
+     * Checks if there is a winner on the board.
+     * @return the marker of the winning player, or '0' if there is no winner
+     */
     @Override
     public char checkWinner(){
         // Left -> Right
@@ -99,7 +140,12 @@ public class Board2D extends Board {
         return '0';
     }
     
-    // Check if a line have the same marker
+    /**
+     * Checks if a line has the same marker.
+     * @param startPos the starting position of the line
+     * @param steps the steps to move in each direction
+     * @return true if the line has the same marker, false otherwise
+     */
     @Override
     protected boolean checkLine(Position startPos, int... steps){
         int startRow = startPos.getRow();
