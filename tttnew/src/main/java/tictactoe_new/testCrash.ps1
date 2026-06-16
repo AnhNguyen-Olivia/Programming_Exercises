@@ -1,5 +1,5 @@
 $connections = @()
-1..10000 | ForEach-Object {
+1..1000 | ForEach-Object {
     try {
         $tcp = New-Object System.Net.Sockets.TcpClient
         $tcp.Connect("localhost", 9020)

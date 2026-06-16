@@ -2,31 +2,33 @@ package tictactoe_new;
 
 import java.io.*;
 import java.net.*;
+import java.util.concurrent.*;
 
 /**
  * A simple server for the tic-tac-toe game that listens for client connections and allows a multiple client to play the game against a computer opponent.
- * This use thread
+ * This use thread pool and allow up to 4 client
  */
-public class multithreadingServer {
-        
+public class ServerThreadPool {
     /**
      * Main method to start the server and listen for client connections.
      * @param args
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        try (ServerSocket serverSocket = new ServerSocket(9010)) {
+        ExecutorService pool = Executors.newFixedThreadPool(4);
+        try (ServerSocket serverSocket = new ServerSocket(9020)) {
             while(true){    
                 Socket socket = serverSocket.accept();
                 System.out.println("Client connected: " + socket.getInetAddress());
 
-                // Create a new thread for each request. This part is the difference in the single code
-                new Thread(() -> {
+                // Create a thread pool that handle 4 thread, also the thing that difference to the single server
+                pool.submit(() -> {
                     try {
-                    handleClient(socket);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }}).start();
+                        handleClient(socket);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
             }
         }
     }

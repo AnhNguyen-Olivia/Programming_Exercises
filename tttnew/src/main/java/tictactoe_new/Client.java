@@ -8,11 +8,12 @@ import java.net.*;
 public class Client {
     /**
      * Main method to start the client and connect to the server.
+     * To test the other server, change the port here
      * @param args
      * @throws IOException
      */
     public static void main(String[] args) throws IOException{
-        try(Socket socket = new Socket("localhost", 9000)){
+        try(Socket socket = new Socket("localhost", Constants.PORT)){
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintStream out = new PrintStream(socket.getOutputStream(), true);
             

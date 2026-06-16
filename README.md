@@ -54,7 +54,16 @@ java -jar target/tttnew-1.0-SNAPSHOT.jar 2 2d
 java -jar target/tttnew-1.0-SNAPSHOT.jar 1 1d
 ```
 
-## How to run client server (single client-server)
+## Sever - Client
+
+Note: before start the client, check if the port is the same as the sever you want to connect. The options for port are
+
+|Port number|Server|
+|9000       |Signle client Server|
+|9010       |Multithread Server|
+|9020       |Threadpool Server|
+
+### How to run client server (single client-server)
 
 ```bash
 # Terminal 1 server
@@ -65,7 +74,7 @@ java -cp target/classes tictactoe_new.SingleClientServer
 java -cp target/classes tictactoe_new.Client
 ```
 
-## How to run client server (multi thread client-sever)
+### How to run client server (multi thread client-sever)
 
 ```bash
 # Terminal 1 server
@@ -73,17 +82,17 @@ mvn compile
 java -cp target/classes tictactoe_new.multithreadingServer
 
 # Terminal 2 client
-java -cp target/classes tictactoe_new.multithreadClient
+java -cp target/classes tictactoe_new.Client
 ```
 
-### Test crashing if deploy 10K user
+#### Test crashing if deploy 10K user
 
 ```bash
 chmod +x testCrash.sh
 ./testCrash.sh
 ```
 
-### Incase you have window (like me) and somehow the damn OS ain't letting run the bash file
+#### Incase you have window (like me) and somehow the damn OS ain't letting run the bash file
 
 I have git bash to run, if you don't have it then either find a way to run it. Now run like this
 
@@ -94,7 +103,7 @@ bash
 
 ```
 
-### For those don't have nc aka netcat (still me lol)
+#### For those don't have nc aka netcat (still me lol)
 
 Install netcat. Via this or find one yourself ;D
 
@@ -104,7 +113,18 @@ winget install Insecure.Nmap
 ncat --version
 ```
 
-### This is me give up and build a ps1 file
+### How to run threadpool server
+
+```bash
+# Terminal 1 server
+mvn compile
+java -cp target/classes tictactoe_new.ServerThreadPool
+
+# Terminal 2 client
+java -cp target/classes tictactoe_new.Client
+```
+
+#### This is me give up and build a ps1 file
 
 Run via this cmd
 
