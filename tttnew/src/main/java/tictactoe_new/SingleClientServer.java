@@ -3,8 +3,16 @@ package tictactoe_new;
 import java.io.*;
 import java.net.*;
 
+/**
+ * A simple server for the tic-tac-toe game that listens for client connections and allows a single client to play the game against a computer opponent.
+ */
 public class SingleClientServer {
     
+    /**
+     * Main method to start the server and listen for client connections.
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         try (ServerSocket serverSocket = new ServerSocket(9000)) {
             while(true){    
@@ -13,9 +21,13 @@ public class SingleClientServer {
                 handleClient(socket);
             }
         }
-
     }
 
+    /**
+     * Handles a single client connection, setting up the game and managing the game logic for that client.
+     * @param socket
+     * @throws IOException
+     */
     private static void handleClient(Socket socket) throws IOException {
         // set up streams
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -33,8 +45,12 @@ public class SingleClientServer {
         Board board = new Board2D(out);
         GameLogic gamelogic = new GameLogic(board, humanPlayer, computer, first_player, out);
         
-        try{gamelogic.play();}catch(RuntimeException e){
-            out.println("Adieu goodfriend, I will see you in the other side.");
+        /**
+         * Starts the game and handles the game loop.
+         * If the player press "q", the game will be quit and a message will be sent to the client.
+         */
+        try{gamelogic.play();}catch(HumanPlayer.QuitGameException e){
+            out.println("Game quit by user. Adieu!");
         }
 
     }

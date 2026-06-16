@@ -44,7 +44,7 @@ public class HumanPlayer extends Player {
 
             if("q".equals(input)){
                 out.println("All players exploded, game over. :D\n");
-                throw new RuntimeException("Game quit by user.\n");
+                throw new QuitGameException("Game quit by user.\n");
             }
             try{
                 int chosenCell = Integer.parseInt(input);
@@ -69,5 +69,14 @@ public class HumanPlayer extends Player {
                 out.println("Invalid input. Please enter a number.\n");
             }
         }while(true);
+    }
+
+    /**
+     * Custom exception to indicate that the game has been quit by the user.
+     */
+    public static class QuitGameException extends RuntimeException{
+        public QuitGameException(String message){
+            super(message);
+        }
     }
 }
