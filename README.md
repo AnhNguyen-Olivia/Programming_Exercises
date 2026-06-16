@@ -54,7 +54,7 @@ java -jar target/tttnew-1.0-SNAPSHOT.jar 2 2d
 java -jar target/tttnew-1.0-SNAPSHOT.jar 1 1d
 ```
 
-## How to run client server
+## How to run client server (single client-server)
 
 ```bash
 # Terminal 1 server
@@ -64,6 +64,22 @@ java -cp target/classes tictactoe_new.SingleClientServer
 # Terminal 2 client
 java -cp target/classes tictactoe_new.Client
 ```
+
+## How to run client server (multi thread client-sever)
+
+```bash
+# Terminal 1 server
+mvn compile
+java -cp target/classes tictactoe_new.multithreadingServer
+
+# Terminal 2 client
+java -cp target/classes tictactoe_new.multithreadClient
+```
+
+### Test crashing if deploy 10K user
+
+chmod +x testCrash.sh
+./testCrash.sh
 
 ## How to Play
 
