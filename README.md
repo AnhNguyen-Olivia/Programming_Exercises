@@ -78,8 +78,39 @@ java -cp target/classes tictactoe_new.multithreadClient
 
 ### Test crashing if deploy 10K user
 
+```bash
 chmod +x testCrash.sh
 ./testCrash.sh
+```
+
+### Incase you have window (like me) and somehow the damn OS ain't letting run the bash file
+
+I have git bash to run, if you don't have it then either find a way to run it. Now run like this
+
+```bash
+bash
+# Navigate to the folder have the bash file. Then run this cmd
+./testCrash.sh
+
+```
+
+### For those don't have nc aka netcat (still me lol)
+
+Install netcat. Via this or find one yourself ;D
+
+```bash
+winget install Insecure.Nmap
+# Check version
+ncat --version
+```
+
+### This is me give up and build a ps1 file
+
+Run via this cmd
+
+```bash
+./testCrash.ps1
+```
 
 ## How to Play
 
