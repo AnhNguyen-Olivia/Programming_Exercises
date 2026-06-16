@@ -64,6 +64,7 @@ java -cp target/classes tictactoe_new.SingleClientServer
 # Terminal 2 client
 java -cp target/classes tictactoe_new.Client
 ```
+
 ## How to Play
 
 - Enter your move as a position number (0-8 for 2D board, or as specified in the game)
