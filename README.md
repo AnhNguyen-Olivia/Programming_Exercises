@@ -98,4 +98,4 @@ This will run all unit tests in the `src/test/` directory.
 
 ## Client Server Protocol
 
-![alt text](miscellaneous\BasicProtocol.png "Basic Protocol Diagram for Client-server, single-user, single-threaded terminal-based human-computer, basic Tic-Tac-Toe")
+![alt text](miscellaneous/BasicProtocol.png "Basic Protocol Diagram for Client-server, single-user, single-threaded terminal-based human-computer, basic Tic-Tac-Toe")
