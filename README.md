@@ -58,10 +58,12 @@ java -jar target/tttnew-1.0-SNAPSHOT.jar 1 1d
 
 Note: before start the client, check if the port is the same as the sever you want to connect. The options for port are
 
-|Port number|Server|
+|Port number|Server              |
+|-----------|--------------------|
 |9000       |Signle client Server|
-|9010       |Multithread Server|
-|9020       |Threadpool Server|
+|9010       |Multithread Server  |
+|9020       |Threadpool Server   |
+|9030       |Stateless Server    |
 
 ### How to run client server (single client-server)
 

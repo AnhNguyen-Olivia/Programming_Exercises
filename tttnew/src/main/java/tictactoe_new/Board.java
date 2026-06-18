@@ -56,4 +56,8 @@ public abstract class Board {
      * @return true if there is a line of markers, false otherwise
      */
     protected abstract boolean checkLine(Position startPos, int... steps);
+
+    protected abstract void loadString(String line);
+
+    protected abstract String networkString();
 }

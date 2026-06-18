@@ -128,4 +128,14 @@ public class Board1D extends Board {
         }
         return true;
     }
+
+    @Override
+    protected void loadString(String line) {
+        throw new UnsupportedOperationException("Unimplemented method 'loadString'");
+    }
+
+    @Override
+    protected String networkString() {
+        throw new UnsupportedOperationException("Unimplemented method 'networkString'");
+    }
 }

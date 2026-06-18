@@ -173,4 +173,39 @@ public class Board2D extends Board {
         }
         return true;
     }
+
+    /**
+     * Take the board and make it into a string for transportation in a network
+     * Example, which I hope will look like this: 000010002
+     * @return a string of characters represent each cell's state in order from box 1 - the final cell
+     * which is 9 btw ;)
+     */
+    public String networkString(){
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for(int i = 1; i <= getTotalCells(); i++){
+            Position position = getCellPosition(i);
+            char marker = board[position.getRow()][position.getCol()];
+            stringBuilder.append(marker);
+        }
+        return stringBuilder.toString();
+    }
+    
+    /**
+     * The reverse of networkString method, this methid take the string from the network
+     * and then rebuild it
+     * @param string a 9-character-ish (can be more but well this is a 3 x 3 board) 
+     * containing the marker for boxes 1-9
+     */
+    public void loadString(String string){
+        for (int i = 0; i < string.length(); i++){
+            char marker = string.charAt(i);
+            int boxNumber = i + 1;
+            Position position = getCellPosition(boxNumber);
+
+            placeMarker(position, marker);
+        }
+    }
+
+
 }

@@ -5,8 +5,7 @@ import java.util.Arrays;
 /**
  * Represents a position on the game board.
  */
-public class 
-Position {
+public class Position {
     private int[] coordinates;
     /**
      * Constructor for Position class.
