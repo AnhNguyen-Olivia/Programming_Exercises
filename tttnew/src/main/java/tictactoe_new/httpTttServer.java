@@ -30,8 +30,16 @@ public class httpTttServer {
             Position playerPos = board.getCellPosition(playerMove);
             System.out.println("Move received: " + playerMove);
             
-            //place player move :D
-            board.placeMarker(playerPos, Constants.HUMAN_MARKER);
+            if(board.isCellEmpty(playerPos)){
+                board.placeMarker(playerPos, Constants.HUMAN_MARKER);
+            } else {
+                String response = "Cell is occupied!\n" + boardString;
+                exchange.sendResponseHeaders(200, response.length());
+                OutputStream out = exchange.getResponseBody();
+                out.write(response.getBytes());
+                out.close();
+                return;
+            }
 
             //Check winners, continue if don't
             String status = getGameStatus(board);

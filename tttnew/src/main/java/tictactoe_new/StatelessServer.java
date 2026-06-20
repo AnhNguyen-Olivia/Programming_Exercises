@@ -6,7 +6,7 @@ import java.net.*;
 /**
  * A simple server for the tic-tac-toe game that listens for client connections and allows a multi client to play the game against a computer opponent.
  */
-public class multiUserSever {
+public class StatelessServer {
         
     /**
      * Main method to start the server and listen for client connections.
@@ -51,14 +51,26 @@ public class multiUserSever {
         Integer playerMove = Integer.parseInt(in.readLine());
         Position playerPos = board.getCellPosition(playerMove);
         
-        //place player move :D
-        board.placeMarker(playerPos, Constants.HUMAN_MARKER);
+        //Check player move :')
+        if(board.isCellEmpty(playerPos)){
+            //place player move :D 
+            board.placeMarker(playerPos, Constants.HUMAN_MARKER);
+        }else{
+            out.println("Cell is occupied!");
+            out.println(board.networkString());
+            return;
+        }
 
         //Check winners, continue if don't
         String status = getGameStatus(board);
 
         if(status.equals("Computer turns")){
             board.placeMarker(computer.makeMove(board), Constants.COMPUTER_MARKER);
+            status = getGameStatus(board);
+        }
+
+        if(status.equals("wins") || status.equals("Draw!")){
+            out.println(board.networkString());
             status = getGameStatus(board);
         }
 

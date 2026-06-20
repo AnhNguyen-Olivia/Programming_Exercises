@@ -21,6 +21,8 @@ public class StatelessClient {
         BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
         // status
         String status = null;
+        // flag for q
+        boolean quit = false;
         
         while (true){
             try(Socket socket = new Socket("localhost", 9030)){
@@ -37,6 +39,12 @@ public class StatelessClient {
                System.out.println("Enter your move (1-9): ");
                String move = userInput.readLine();
 
+               if(move.equals("q")){
+                quit = true;
+                System.out.println("Game quit by player");
+                break;
+               }
+
                //send to the server
                out.println(boardState);
                out.println(move);
@@ -47,10 +55,21 @@ public class StatelessClient {
                boardState = in.readLine();
             }
 
+            if(status.equals("Cell is occupied!")){
+                System.out.println(status);
+                continue;
+            }
+
             if(!status.equals("Computer turns")){
                 System.out.println(status);
                 break;
             }
+        }
+
+        if(!quit){
+            Board2D finalBoard = new Board2D(System.out);
+            finalBoard.loadString(boardState);
+            finalBoard.print();
         }
     }
 }

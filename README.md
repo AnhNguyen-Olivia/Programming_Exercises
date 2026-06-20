@@ -132,7 +132,7 @@ java -cp target/classes tictactoe_new.Client
 ```bash
 # Terminal 1 server
 mvn compile
-java -cp target/classes tictactoe_new.multiUserSever
+java -cp target/classes tictactoe_new.StatelessServer
 
 # Terminal 2 client
 java -cp target/classes tictactoe_new.StatelessClient
@@ -146,7 +146,7 @@ mvn compile
 java -cp target/classes tictactoe_new.httpTttServer
 
 # Terminal 2 client
-java -cp target/classes tictactoe_new.StatelessClient
+java -cp target/classes tictactoe_new.httpTttClient
 
 # Test using curl
 curl.exe -X POST http://localhost:9040/move --data-binary "000000000`n5"
