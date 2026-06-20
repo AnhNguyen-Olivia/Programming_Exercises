@@ -20,11 +20,13 @@ public class multiUserSever {
                 System.out.println("Client connected: " + socket.getInetAddress());
                 handleClient(socket);
             }
+        }catch(IOException e){
+            System.out.println("Client disconnected: " + e.getMessage());
         }
     }
 
     /**
-     * Handles a single client connection, setting up the game and managing the game logic for that client.
+     * Handles client connection, check and then reply.
      * @param socket
      * @throws IOException
      */
@@ -32,16 +34,18 @@ public class multiUserSever {
         // set up streams
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintStream out = new PrintStream(socket.getOutputStream(), true);
-        out.println("Bonjour! Connected to the server\n");
 
         //set up computer
         Computer computer = new Computer(Constants.COMPUTER_MARKER, "COMPUTER");
 
         //Create board
-        Board board = new Board2D(out);
+        Board board = new Board2D(System.out);
         
         //Receive client string
         board.loadString(in.readLine());
+        //String boardString = in.readLine();
+        // Debugging 
+        //out.println("Received board: " + boardString + " Lenght = " + boardString.length());
         
         //Take player move, change from int -> position
         Integer playerMove = Integer.parseInt(in.readLine());
@@ -70,5 +74,4 @@ public class multiUserSever {
         if (board.isBoardFull()) return "Draw!";
         return "Computer turns";
     }
-    
 }

@@ -28,6 +28,8 @@ public class multithreadingServer {
                     e.printStackTrace();
                 }}).start();
             }
+        }catch(IOException e){
+            System.out.println("Client disconnected: " + e.getMessage());
         }
     }
 

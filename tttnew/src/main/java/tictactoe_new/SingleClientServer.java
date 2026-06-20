@@ -20,6 +20,8 @@ public class SingleClientServer {
                 System.out.println("Client connected: " + socket.getInetAddress());
                 handleClient(socket);
             }
+        }catch(IOException e){
+            System.out.println("Client disconnected: " + e.getMessage());
         }
     }
 

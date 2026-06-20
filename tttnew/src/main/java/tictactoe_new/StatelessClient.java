@@ -9,39 +9,47 @@ import java.net.Socket;
 public class StatelessClient {
     /**
      * Main method to start the client and connect to the server.
-     * To test the other server, change the port here
+     * This is to test stateless sever (not secure)
      * @param args
      * @throws IOException
      */
     public static void main(String[] args) throws IOException{
-        try(Socket socket = new Socket("localhost", Constants.PORT)){
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintStream out = new PrintStream(socket.getOutputStream(), true);
-            
-            // start with a clean state :p
-            String boradState = "000000000";
 
-            // for userInput
-            BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
+        // start with a clean state :p
+        String boardState = "000000000";
+        //User input
+        BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
+        // status
+        String status = null;
+        
+        while (true){
+            try(Socket socket = new Socket("localhost", 9030)){
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                PrintStream out = new PrintStream(socket.getOutputStream(), true);
+               
+               // Display board
+               //set board up. Assuming I only need to play board 2d
+               Board2D board = new Board2D(System.out);
+               board.loadString(boardState);
+               board.print();
 
-            String greeting = in.readLine();
-            System.out.println(greeting);
+               // asking the user move 
+               System.out.println("Enter your move (1-9): ");
+               String move = userInput.readLine();
 
-            while (true){
-                // read from server
-                String line;
-                while((line = in.readLine()) != null){
-                    System.out.println(line);
-                    if (line.contains("Enter cell")) break;
+               //send to the server
+               out.println(boardState);
+               out.println(move);
 
-                    if (line.contains("wins!") || line.contains("Draw!") || line.contains("Game quit by user. Adieu!")){
-                        return;
-                    }
-                }
+               //Check status
+               status = in.readLine();
+               //receive new board
+               boardState = in.readLine();
+            }
 
-                // write to server
-                String response = userInput.readLine();
-                out.println(response);
+            if(!status.equals("Computer turns")){
+                System.out.println(status);
+                break;
             }
         }
     }

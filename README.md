@@ -64,6 +64,7 @@ Note: before start the client, check if the port is the same as the sever you wa
 |9010       |Multithread Server  |
 |9020       |Threadpool Server   |
 |9030       |Stateless Server    |
+|9040       |Http Server         |
 
 ### How to run client server (single client-server)
 
@@ -126,6 +127,31 @@ java -cp target/classes tictactoe_new.ServerThreadPool
 java -cp target/classes tictactoe_new.Client
 ```
 
+### How to run client server (Stateless)
+
+```bash
+# Terminal 1 server
+mvn compile
+java -cp target/classes tictactoe_new.multiUserSever
+
+# Terminal 2 client
+java -cp target/classes tictactoe_new.StatelessClient
+```
+
+### How to run client server (HTTP)
+
+```bash
+# Terminal 1 server
+mvn compile
+java -cp target/classes tictactoe_new.httpTttServer
+
+# Terminal 2 client
+java -cp target/classes tictactoe_new.StatelessClient
+
+# Test using curl
+curl.exe -X POST http://localhost:9040/move --data-binary "000000000`n5"
+```
+
 #### This is me give up and build a ps1 file
 
 Run via this cmd
@@ -136,7 +162,7 @@ Run via this cmd
 
 ## How to Play
 
-- Enter your move as a position number (0-8 for 2D board, or as specified in the game)
+- Enter your move as a position number (1-9 for 2D board, or as specified in the game)
 - Try to get three in a row (horizontally, vertically, or diagonally)
 - The game will alternate between your moves and the computer's moves
 - The game ends when someone wins or the board is full (tie)
@@ -152,3 +178,7 @@ This will run all unit tests in the `src/test/` directory.
 ## Client Server Protocol
 
 ![alt text](miscellaneous/BasicProtocol.png "Basic Protocol Diagram for Client-server, single-user, single-threaded terminal-based human-computer, basic Tic-Tac-Toe")
+
+## Stateless Client Sever
+
+![alt text](miscellaneous/StatelessDesign.png "Basic Protocol Diagram for Client-server, multi-user, single-threaded terminal-based human-computer, basic Tic-Tac-Toe")
