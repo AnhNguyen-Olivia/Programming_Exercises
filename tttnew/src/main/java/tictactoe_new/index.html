@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tic Tac Toe</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 150px);
+            grid-template-rows: repeat(3, 150px);
+            gap: 5px;
+        }
+
+        .cell {
+            background-color: white;
+            font-size: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 3px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="board">
+        <div class="cell" id="cell1" onclick="makeMove(1)">0</div>
+        <div class="cell" id="cell2" onclick="makeMove(2)">0</div>
+        <div class="cell" id="cell3" onclick="makeMove(3)">0</div>
+        <div class="cell" id="cell4" onclick="makeMove(4)">0</div>
+        <div class="cell" id="cell5" onclick="makeMove(5)">0</div>
+        <div class="cell" id="cell6" onclick="makeMove(6)">0</div>
+        <div class="cell" id="cell7" onclick="makeMove(7)">0</div>
+        <div class="cell" id="cell8" onclick="makeMove(8)">0</div>
+        <div class="cell" id="cell9" onclick="makeMove(9)">0</div>
+    </div>
+
+    <script>
+        let boardState = "000000000";
+
+        function makeMove(cell) {
+            sendMove(cell, function(data){
+                handleResponse(data);
+            });
+        }
+
+        function sendMove(cell, callback){
+            fetch("http://localhost:9040/move", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ boardState: boardState, move: String(cell) })
+            })
+            .then(response => response.json())
+            .then(data => callback(data));
+        }
+
+        function handleResponse(data) {
+            boardState = data.boardState;
+            
+            for (let i = 0; i < 9; i++) {
+                document.getElementById("cell" + (i + 1)).innerText = boardState[i];
+            }
+            
+            if (data.status !== "Computer turns") {
+                alert(data.status);
+            }
+        }
+
+    </script>
+</body>
+</html>

@@ -1,6 +1,9 @@
 package tictactoe_new;
 
 import java.net.http.*;
+
+import com.google.gson.Gson;
+
 import java.io.*;
 import java.net.*;
 
@@ -30,10 +33,17 @@ public class httpTttClient {
                 break;
             }
 
+            //Building the JSON
+            Gson gson = new Gson();
+            GameMessage message = new GameMessage();
+            message.boardState = boardState;
+            message.move = move;
+            String json = gson.toJson(message);
+
             // Build the request
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:9040/move"))
-                .POST(HttpRequest.BodyPublishers.ofString(boardState + "\n" + move))
+                .POST(HttpRequest.BodyPublishers.ofString(json))
                 .build();
 
             // Send and get response
@@ -43,9 +53,9 @@ public class httpTttClient {
             );
 
             String body = response.body();
-            String[] parts = body.split("\n");
-            status = parts[0];
-            boardState = parts[1];
+            GameMessage result = gson.fromJson(body, GameMessage.class);
+            status = result.status;
+            boardState = result.boardState;
 
             if(status.equals("Cell is occupied!")){
                 System.out.println(status);
