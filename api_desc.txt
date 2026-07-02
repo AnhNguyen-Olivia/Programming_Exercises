@@ -1,0 +1,6 @@
+# This is a .txt file with a description of the APIs for the tictactoe project 
+
+(path | expected request's body | expected response's body)
+
+/move | {"boardState":"000000000","move":"5"} | {"boardState":"200010000","status":"Computer turns"}
+
