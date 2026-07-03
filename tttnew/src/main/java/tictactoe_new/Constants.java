@@ -18,5 +18,5 @@ public class Constants {
               9020 = threadpool server
               9030 = Stateless server
     */
-    public static final int PORT = 9030; // The test need to manually change
+    public static final int PORT = 9000; // The test need to manually change
 }
