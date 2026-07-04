@@ -186,9 +186,26 @@ java -cp target/week12-1.0-SNAPSHOT.jar week12.httpTttClient
 
 ```bash
 mvn test
+This will run all unit tests in the `src/test/` directory.
 ```
 
-This will run all unit tests in the `src/test/` directory.
+## Use tomcat
+
+```bash
+# go to your tomcat folder and do this =
+bin\startup.bat
+# then head to this address to confirm it's running
+http://localhost:8080 
+```
+
+To test the connection either curl or postman
+
+```powercell
+Invoke-WebRequest -Uri "http://localhost:8080/tttnew_webapp/move" `
+  -Method POST `
+  -ContentType "application/json" `
+  -Body '{"boardState":"000000000","move":"5"}'
+```
 
 ## Client Server Protocol
 

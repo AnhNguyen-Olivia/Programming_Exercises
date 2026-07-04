@@ -14,9 +14,6 @@ public class TttServlet extends HttpServlet {
         resp.addHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
         resp.addHeader("Access-Control-Allow-Headers", "Content-Type");
         resp.setStatus(204);
-        // change this
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
     }
 
     @Override
@@ -24,6 +21,8 @@ public class TttServlet extends HttpServlet {
             throws ServletException, IOException {
         
         resp.addHeader("Access-Control-Allow-Origin", "*");
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
 
         String body = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 

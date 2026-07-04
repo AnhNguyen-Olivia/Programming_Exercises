@@ -1,5 +1,6 @@
 package week9;
 
+
 import java.io.*;
 import java.net.*;
 
@@ -31,7 +32,7 @@ public class StatelessClient {
                Board2D board = new Board2D(System.out);
                board.loadString(boardState);
                board.print();
-
+               
                // asking the user move 
                System.out.println("Enter your move (1-9): ");
                String move = userInput.readLine();
@@ -39,6 +40,8 @@ public class StatelessClient {
                if(move.equals("q")){
                 quit = true;
                 System.out.println("Game quit by player");
+                out.println(boardState);
+                out.println("quit");     
                 break;
                }
 
@@ -70,3 +73,4 @@ public class StatelessClient {
         }
     }
 }
+
