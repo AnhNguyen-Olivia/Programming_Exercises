@@ -142,11 +142,11 @@ java -cp target/classes tictactoe_new.StatelessClient
 
 ```bash
 # Terminal 1 server
-mvn compile
-java -cp target/classes tictactoe_new.httpTttServer
+mvn package
+java -cp target/week12-1.0-SNAPSHOT.jar tictactoe_new.httpTttServer
 
 # Terminal 2 client
-java -cp target/classes tictactoe_new.httpTttClient
+java -cp target/week12-1.0-SNAPSHOT.jar tictactoe_new.httpTttClient
 
 # Test using curl
 curl.exe -X POST http://localhost:9040/move --data-binary "000000000`n5"
@@ -158,6 +158,21 @@ Run via this cmd
 
 ```bash
 ./testCrash.ps1
+```
+
+### Note
+
+```bash
+mvn compile
+java -cp target/classes week9.StatelessServer
+
+java -cp target/classes week9.StatelessClient
+
+mvn package
+java -cp target/week12-1.0-SNAPSHOT.jar week12.httpTttServer
+
+# Terminal 2 client
+java -cp target/week12-1.0-SNAPSHOT.jar week12.httpTttClient
 ```
 
 ## How to Play
