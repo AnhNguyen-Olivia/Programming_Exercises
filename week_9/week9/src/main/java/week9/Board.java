@@ -57,7 +57,24 @@ public abstract class Board {
      */
     protected abstract boolean checkLine(Position startPos, int... steps);
 
+    /**
+     * Loads the board state from a string representation.
+     * For example "000201000" represents a 3x3 board with the following layout:
+     * 0 0 0
+     * 2 0 1
+     * 0 0 0
+     * @param line the string representation of the board
+     */
     protected abstract void loadString(String line);
 
+    /**
+     * Returns a string representation of the board for network transmission.
+     * For example, if a 3 x 3 board has the following layout:
+     * 0 0 0
+     * 2 0 1
+     * 0 0 0
+     * The string representation would be "000201000".
+     * @return the string representation of the board
+     */
     protected abstract String networkString();
 }
